@@ -52,7 +52,7 @@ public class Contacto {
 
     public void setTelefono(String telefono) {
         
-        /** Compilo el patrón del telefono para despues comprobar si coincide
+        /** Compilo el patrón del teléfono para después comprobar si coincide
          * con el número introducido, si no coincide lanzo la excepción*/
         
         if(telefono==null){ throw new IllegalArgumentException("No se ha creado ningún teléfono");}
@@ -101,14 +101,23 @@ public class Contacto {
     
     
     /** Ejercicio 5.Crea el constructor con los parámetros adecuados y que haga el mismo
-    control que en el caso anterior.
+    control que en el caso anterior.*/
     
-    public Contacto(String nombre, String telefono) {
-        this.nombre = nombre;
-        this.telefono = telefono;
+    public Contacto(String nombre, String telefono, String correo) {
+        
+       setNombre(nombre);
+       setTelefono(telefono);
+       setCorreo(correo);
     }
     
- */
+    
+    /** Ejercicio 6. Crea los demás métodos que se muestran en el diagrama de clases,
+       *teniendo en cuenta que el método toString nos devolverá una cadena con las iniciales
+       *del nombre y encerrado entre corchetes el teléfono y el correo separados por comas.
+       *También debes tener en cuenta que un contacto será igual que otro si sus nombres, 
+       *ignorando mayúsculas y minúsculas, son iguales.*/
+    
+ 
     
     
     
