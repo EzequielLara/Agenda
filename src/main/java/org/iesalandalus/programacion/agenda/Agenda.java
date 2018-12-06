@@ -109,4 +109,44 @@ public class Agenda {
             throw new OperationNotSupportedException("El array de libros está lleno.");
     }
     
+    /**Ejercicio 10. Crea el método buscar que recibirá el nombre del contacto y devolverá el contacto. 
+     * Apóyate en el método privado buscarIndiceCliente.*/
+    
+    
+    private int buscarIndiceCliente(String nombreBuscado)
+    {
+        int indice=-1;
+        
+        for(int i=0;i<getContactos().length;i++)
+        {
+            /** Para comparar el nombre introducido debo acceder primero a la poscion
+              *  del array y luego al atributo nombre para comparar ambos*/
+            
+            if (getContactos()[i]!=null && getContactos()[i].getNombre().equalsIgnoreCase(nombreBuscado))
+                indice=i;            
+        }
+        
+        return indice;
+    }
+    
+    public Contacto buscar(String nombre) throws OperationNotSupportedException{
+    
+        int i;
+    
+    //Creo un contacto con los restantes atributos inventados
+    
+        Contacto buscarcontacto =new Contacto(nombre,"3","33");
+        
+        i=buscarIndiceCliente(buscarcontacto.getNombre());
+        
+        if (i==-1){
+            
+            throw new OperationNotSupportedException("El contacto buscado no se encuentra en la agenda");
+            
+        }else
+        {
+        
+            return getContactos()[i];
+        }
+    }
 }
