@@ -39,9 +39,10 @@ public class Agenda {
         Contacto [] arrayContactos=new Contacto[getNumContactos()];
         
         
-        /**Para crear otro array copia del primero debo declarar antes otro array de la clase Contacto*/
+        /**Para crear otro array copia del primero debo declarar antes otro array de la clase Contacto 
+         * pero como este array guardará todos los contactos creados su límite será el indicado por MAX_CONTACTOS*/
         
-        Contacto [] contactos =new Contacto[getNumContactos()];
+        Contacto [] contactos =new Contacto[MAX_CONTACTOS];
         
         // Para obtener una copia del arrayContactos utilizo el método System.arraycopy():
         
@@ -78,9 +79,9 @@ public class Agenda {
         return indice;
     }
     
-    private boolean indiceNoSuperaTamano(int j){
+    private boolean indiceNoSuperaTamano(int i){
         
-        if(j>=getContactos().length){
+        if(i>=getContactos().length){
             return true;
         }else
             return false;
@@ -113,7 +114,7 @@ public class Agenda {
      * Apóyate en el método privado buscarIndiceCliente.*/
     
     
-    private int buscarIndiceCliente(String nombreBuscado)
+    private int buscarIndiceCliente(String nombre)
     {
         int indice=-1;
         
@@ -122,7 +123,7 @@ public class Agenda {
             /** Para comparar el nombre introducido debo acceder primero a la poscion
               *  del array y luego al atributo nombre para comparar ambos*/
             
-            if (getContactos()[i]!=null && getContactos()[i].getNombre().equalsIgnoreCase(nombreBuscado))
+            if (getContactos()[i]!=null && getContactos()[i].getNombre().equalsIgnoreCase(nombre))
                 indice=i;            
         }
         
@@ -133,11 +134,9 @@ public class Agenda {
     
         int i;
     
-    //Creo un contacto con los restantes atributos inventados
-    
-        Contacto buscarcontacto =new Contacto(nombre,"3","33");
+        // No necesito crear un objeto, basta con introducir una palabra para realizar la búsqueda.
         
-        i=buscarIndiceCliente(buscarcontacto.getNombre());
+        i=buscarIndiceCliente(nombre);
         
         if (i==-1){
             
@@ -148,5 +147,39 @@ public class Agenda {
         
             return getContactos()[i];
         }
+    }
+    
+    /** Ejercicio 11. Crea el método borrar que borrará un contacto de la lista dejando la misma compactada
+     * (los contactos válidos al principio y los nulos al final). 
+     * Apóyate en el método desplazarUnaPosicionHaciaIzquierda. 
+     * El método debe informar de los posibles errores mediante la excepcion OperationNotSupportedException. */
+    
+    private void desplazarUnaPosicionHaciaIzquierda(int indice){
+        
+        // Este metodo desplaza a la derecha los contactos nulos dejando a la izquierda los contáctos válidos.
+    
+        for (int i = indice; i < getContactos().length - 1 && getContactos()[i] != null; i++) 
+            {
+                getContactos()[i] = getContactos()[i+1];
+	    }
+    
+    }
+    
+    public void borrar(String nombre) throws OperationNotSupportedException{
+    
+      int i;
+      i=buscarIndiceCliente(nombre);
+      
+      
+      if (indiceNoSuperaTamano(i)==true){
+          
+          getContactos()[i]= null;
+          
+      }else{
+      
+          throw new OperationNotSupportedException("La agenda contiene un máximo de "+ getContactos().length + "contactos. Está intentando acceder a un contacto inexistente");
+      
+      }  
+    
     }
 }
