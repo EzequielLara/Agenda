@@ -4,8 +4,8 @@ import javax.naming.OperationNotSupportedException;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
 public class MainApp {
-    private static final String ERROR="";
-    private static final String EXITO="";
+    private static final String ERROR="La acción no se ha podido ejecutar satisfactoriamente.";
+    private static final String EXITO="Acción realizada con éxito";
     private static Agenda agenda=new Agenda(15);
     private static Contacto contacto;
     
@@ -20,10 +20,14 @@ public class MainApp {
         
             int opcion;
             
+         do{
             mostrarMenu();
-            // Creo esta variable para evitar que se me repitan los mensajes al usuario.
             opcion = elegirOpcion();
             ejecutarOpcion(opcion);
+            
+         }while(opcion != 5);
+         
+            System.out.println("Fin de la ejecución del programa Agenda");
     
 	}
         
@@ -34,7 +38,6 @@ public class MainApp {
             System.out.println("--------------------------------------------------------");
             System.out.println("                 MENÚ DE LA AGENDA                      ");
             System.out.println("--------------------------------------------------------");
-            System.out.println("Indique, de las siguientes opciones, cual desea realizar");
             System.out.println("");
             System.out.println("1. Añadir un contacto a la Agenda");
             System.out.println("2. Buscar un contacto");
@@ -55,7 +58,7 @@ public class MainApp {
             
              do{
            
-                 System.out.println("Indique una opcion");
+                 System.out.println("Indique una de las opciones disponibles");
                  opcion=Entrada.entero();
              
              }while (opcion<0 || opcion>5);
@@ -70,41 +73,46 @@ public class MainApp {
                 
                 case 1:
                     
-                     anadirContacto();
-            
+                    try{
+                        
+                         anadirContacto();
+                     
+                    }catch(OperationNotSupportedException e) 
+                    {
+                         System.out.println("ERROR:" + e.getMessage());
+                    }
                     break;
              
                 case 2:
                     
-                     buscarContacto();
+                    try{
+                        
+                         buscarContacto();
+                     
+                    }catch(OperationNotSupportedException e) 
+                    {
+                         System.out.println("ERROR:" + e.getMessage());
+                    }
              
                     break;
                     
                 case 3:
                     
-                     borrar();
+                    try{
+                         borrar();
+                     
+                    }catch(OperationNotSupportedException e) 
+                    {
+                         System.out.println("ERROR:" + e.getMessage());
+                    }
                      
                     break;
                     
                 case 4:
                     
                      listarAgenda();
-               
-                    break;
               
-                case 5: 
-                    
-                     System.exit(5);
-                    break;
-                    
-                default:
-                    
-		     System.out.println("Debe seleccionar un número de la lista");
-		     elegirOpcion();
-                    
-                    break;
-                    
-                    
+                    break;  
             }
         }
             
@@ -117,26 +125,30 @@ public class MainApp {
               *para que el usuario pueda introducir un nombre a través del constructor
               */
  
-            String nombre;
-         
-            System.out.println("Introduzca los datos del contacto");
+            String nombre,telefono,correo;
+            
+            System.out.println("Introduzca los datos del contacto:");
+            System.out.println("");
             System.out.println("Introduzca primero el nombre");
             
             nombre=Entrada.cadena();
             
             System.out.println("Introduzca ahora el número de teléfono");
-          
-            contacto.setTelefono(Entrada.cadena());
            
+            telefono = Entrada.cadena();
+            
             System.out.println("Por último introduzca la dirección de correo electronico");
             
-            contacto.setCorreo(Entrada.cadena());
+            correo = Entrada.cadena();
                     
-            contacto = new Contacto(nombre,contacto.getTelefono(), contacto.getTelefono());
+            contacto = new Contacto(nombre,telefono, correo);
        
             try{
                         
                 agenda.anadir(contacto);
+                System.out.println("--------------------------------------------");
+                System.out.println("CONTACTO CREADO");
+                System.out.println("--------------------------------------------");
                      
             }catch(OperationNotSupportedException e){
                     
@@ -168,7 +180,9 @@ public class MainApp {
             try{
                 
               agenda.borrar(Entrada.cadena());
-              
+                System.out.println("--------------------------------------------");
+                System.out.println("CONTACTO ELIMINADO");
+                System.out.println("--------------------------------------------");
             }catch(OperationNotSupportedException e){
                     
              e.getMessage();
