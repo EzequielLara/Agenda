@@ -15,8 +15,9 @@ public class Agenda {
     
     // Ejercicio 7. Crea la clase Agenda con los atributos que se especifican.
     
-    private static final int MAX_CONTACTOS = 10;
-    private int numContactos;
+    private static final int MAX_CONTACTOS = 20;
+    private int numContactos=0;
+    private Contacto [] agenda = new Contacto[MAX_CONTACTOS];
     
     /*Ejercicio 8.Crea el constructor y los métodos get que se especifican. 
      *El método getContactos devolverá una copia del array de contactos
@@ -24,7 +25,10 @@ public class Agenda {
 
     public Agenda(int numContactos) {
         
-        this.numContactos = numContactos;
+        if(numContactos<=MAX_CONTACTOS){
+        
+            this.numContactos = numContactos;
+        }
     }
 
     public int getNumContactos() {
@@ -33,20 +37,12 @@ public class Agenda {
     }
     
     public Contacto[] getContactos(){
-      
-        // Creo un array para la clase Contacto en la que se introducirá un número de contactos indicados en el getNumContactos.
-        
-        Contacto [] arrayContactos=new Contacto[getNumContactos()];
         
         
-        /**Para crear otro array copia del primero debo declarar antes otro array de la clase Contacto 
-         * pero como este array guardará todos los contactos creados su límite será el indicado por MAX_CONTACTOS*/
         
         Contacto [] contactos =new Contacto[MAX_CONTACTOS];
         
-        // Para obtener una copia del arrayContactos utilizo el método System.arraycopy():
-        
-        System.arraycopy(arrayContactos, 0, contactos, 0, getNumContactos());
+        contactos=agenda.clone();
         
         return contactos;
     }
@@ -63,14 +59,14 @@ public class Agenda {
         int indice=-1;
         boolean posicionLibre=false;
         
-        for(int i=0;i<getContactos().length && !posicionLibre;i++)
+        for(int i=0;i<agenda.length && !posicionLibre;i++)
         {
-            if (getContactos()[i]==null)
+            if (agenda[i]==null)
             {
                 posicionLibre=true;
                 indice=i;
             }
-            else if (getContactos()[i].equals(contacto))
+            else if (agenda[i].equals(contacto))
             {
                 throw new OperationNotSupportedException("Ya existe un contacto con esos datos.");
             }               
@@ -81,7 +77,7 @@ public class Agenda {
     
     private boolean indiceNoSuperaTamano(int i){
         
-        if(i>=getContactos().length){
+        if(i<=agenda.length){
             return true;
         }else
             return false;
@@ -90,9 +86,6 @@ public class Agenda {
     public void anadir(Contacto contacto)throws OperationNotSupportedException{
        int i;
        
-     //Creamos el contacto:
-     
-        contacto= new Contacto(contacto.getNombre(),contacto.getTelefono(), contacto.getCorreo());
         
      //Buscamos donde insertar el contacto en el Array de contactos
         try
@@ -104,10 +97,14 @@ public class Agenda {
             throw new OperationNotSupportedException("Ya existe un contacto con esos datos.");
         }
         
-        if (i!=-1)
-            getContactos()[i]=contacto;
-        else
-            throw new OperationNotSupportedException("El array de libros está lleno.");
+        if (indiceNoSuperaTamano(i)){
+            
+               agenda[i]=contacto;
+               numContactos++;
+            
+        }else{
+            throw new OperationNotSupportedException("La agenda está completa, no se puede añadir el contacto.");
+        }
     }
     
     /**Ejercicio 10. Crea el método buscar que recibirá el nombre del contacto y devolverá el contacto. 
@@ -118,12 +115,12 @@ public class Agenda {
     {
         int indice=-1;
         
-        for(int i=0;i<getContactos().length;i++)
+        for(int i=0;i<agenda.length;i++)
         {
             /** Para comparar el nombre introducido debo acceder primero a la poscion
               *  del array y luego al atributo nombre para comparar ambos*/
             
-            if (getContactos()[i]!=null && getContactos()[i].getNombre().equalsIgnoreCase(nombre))
+            if (agenda[i]!=null && agenda[i].getNombre().equalsIgnoreCase(nombre))
                 indice=i;            
         }
         
@@ -158,9 +155,9 @@ public class Agenda {
         
         // Este metodo desplaza a la derecha los contactos nulos dejando a la izquierda los contáctos válidos.
     
-        for (int i = indice; i < getContactos().length - 1 && getContactos()[i] != null; i++) 
+        for (int i = indice; i < agenda.length - 1 && agenda[i] != null; i++) 
             {
-                getContactos()[i] = getContactos()[i+1];
+                agenda[i] = agenda[i+1];
 	    }
     
     }
@@ -168,16 +165,17 @@ public class Agenda {
     public void borrar(String nombre) throws OperationNotSupportedException{
     
       int i;
-      i=buscarIndiceCliente(nombre);
       
+      i=buscarIndiceCliente(nombre);
       
       if (indiceNoSuperaTamano(i)==true){
           
-          getContactos()[i]= null;
+          agenda[i]= null;
+          desplazarUnaPosicionHaciaIzquierda(i);
           
       }else{
       
-          throw new OperationNotSupportedException("La agenda contiene un máximo de "+ getContactos().length + "contactos. Está intentando acceder a un contacto inexistente");
+          throw new OperationNotSupportedException( "Está intentando acceder a un contacto inexistente");
       
       }  
     
