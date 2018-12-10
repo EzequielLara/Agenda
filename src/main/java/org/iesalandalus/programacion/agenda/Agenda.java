@@ -16,19 +16,17 @@ public class Agenda {
     // Ejercicio 7. Crea la clase Agenda con los atributos que se especifican.
     
     private static final int MAX_CONTACTOS = 20;
-    private int numContactos=0;
-    private Contacto [] agenda = new Contacto[MAX_CONTACTOS];
+    private int numContactos;
+    private static Contacto[] contactos;
     
     /*Ejercicio 8.Crea el constructor y los métodos get que se especifican. 
      *El método getContactos devolverá una copia del array de contactos
      */
 
-    public Agenda(int numContactos) {
+    public Agenda() {
         
-        if(numContactos<=MAX_CONTACTOS){
-        
-            this.numContactos = numContactos;
-        }
+     contactos = new Contacto[MAX_CONTACTOS];
+     numContactos=0;
     }
 
     public int getNumContactos() {
@@ -38,13 +36,11 @@ public class Agenda {
     
     public Contacto[] getContactos(){
         
+        Contacto [] contacto =new Contacto[MAX_CONTACTOS];
         
+        contacto=contactos.clone();
         
-        Contacto [] contactos =new Contacto[MAX_CONTACTOS];
-        
-        contactos=agenda.clone();
-        
-        return contactos;
+        return contacto;
     }
     
     /**Ejercicio 9.Crea el método anadir para añadir un contacto a la agenda de forma que ésta
@@ -59,14 +55,14 @@ public class Agenda {
         int indice=-1;
         boolean posicionLibre=false;
         
-        for(int i=0;i<agenda.length && !posicionLibre;i++)
+        for(int i=0;i<contactos.length && !posicionLibre;i++)
         {
-            if (agenda[i]==null)
+            if (contactos[i]==null)
             {
                 posicionLibre=true;
                 indice=i;
             }
-            else if (agenda[i].equals(contacto))
+            else if (contactos[i].equals(contacto))
             {
                 throw new OperationNotSupportedException("Ya existe un contacto con esos datos.");
             }               
@@ -77,7 +73,7 @@ public class Agenda {
     
     private boolean indiceNoSuperaTamano(int i){
         
-        if(i<=agenda.length){
+        if(i<=contactos.length){
             return true;
         }else
             return false;
@@ -99,7 +95,7 @@ public class Agenda {
         
         if (indiceNoSuperaTamano(i)){
             
-               agenda[i]=contacto;
+               contactos[i]=contacto;
                numContactos++;
             
         }else{
@@ -115,12 +111,12 @@ public class Agenda {
     {
         int indice=-1;
         
-        for(int i=0;i<agenda.length;i++)
+        for(int i=0;i<contactos.length;i++)
         {
             /** Para comparar el nombre introducido debo acceder primero a la poscion
               *  del array y luego al atributo nombre para comparar ambos*/
             
-            if (agenda[i]!=null && agenda[i].getNombre().equalsIgnoreCase(nombre))
+            if (contactos[i]!=null && contactos[i].getNombre().equalsIgnoreCase(nombre))
                 indice=i;            
         }
         
@@ -142,7 +138,7 @@ public class Agenda {
         }else
         {
         
-            return getContactos()[i];
+            return contactos[i];
         }
     }
     
@@ -154,11 +150,16 @@ public class Agenda {
     private void desplazarUnaPosicionHaciaIzquierda(int indice){
         
         // Este metodo desplaza a la derecha los contactos nulos dejando a la izquierda los contáctos válidos.
+        
+       
+       
     
-        for (int i = indice; i < agenda.length - 1 && agenda[i] != null; i++) 
+        for (int i = indice; i < contactos.length - 1 && contactos[i] != null; i++) 
             {
-                agenda[i] = agenda[i+1];
+              
+               contactos[i]=contactos[i+1];
 	    }
+        
     
     }
     
@@ -170,14 +171,16 @@ public class Agenda {
       
       if (indiceNoSuperaTamano(i)==true){
           
-          agenda[i]= null;
-          desplazarUnaPosicionHaciaIzquierda(i);
           
-      }else{
+          numContactos--;
+        
+          desplazarUnaPosicionHaciaIzquierda(i);
+         
+        }else{
       
           throw new OperationNotSupportedException( "Está intentando acceder a un contacto inexistente");
       
-      }  
+        }  
     
     }
 }
