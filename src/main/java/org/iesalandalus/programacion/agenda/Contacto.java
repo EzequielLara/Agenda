@@ -22,17 +22,17 @@ public class Contacto {
     // Las siguientes declaraciones de constantes contendrán los patrones para validar telefono y correo.
     
     private static final String ER_TELEFONO = "(^[6|9][0-9]{8}$)";
-    private static final String ER_CORREO = "/[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}/igm";
-    
-    
-       
+    private static final String ER_CORREO = "[a-c]";
+
+
+          
     /** Ejercicio 4. Crea los métodos get y set. Ten en cuenta que el nombre no puede estar vacío
     y que además no podemos modificar el nombre de un contacto ya creado, el teléfono debe
     empezar por 6 o 9 y tener 9 dígitos en total y que el correo debe ser un correo válido.
     Si no se cumple el método set correspondiente deberá lanzar una excepción del tipo IllegalArgumentException
     con el mensaje adecuado. Utiliza dos atributos de clase que no se puedan modificar para guardar las 
     expresiones regulares a validar*/
-
+  
     public String getNombre() {
         return nombre;
     }
@@ -140,11 +140,11 @@ public class Contacto {
        
        // Lanzo un aviso en el caso de que se solicite iniciales de un nombre null:
        
-       if(iniciales==null||iniciales.isEmpty()){throw new IllegalArgumentException("Debe especificar antes un nombre para obtener las iniciales");} 
+       if(this.nombre==null||this.nombre.isEmpty()){throw new IllegalArgumentException("Debe especificar antes un nombre para obtener las iniciales");} 
        
        //Transformo la cadena nombre en un array:
       
-       String[] arrayNombre = nombre.split(" ");
+       String[] arrayNombre = this.nombre.split(" ");
       
        /** Con el bucle y el método substring estraigo la primera letra de cada palabra
          * y las voy concatenendo con el método concat()*/
@@ -152,7 +152,7 @@ public class Contacto {
        for(int i=0; i<arrayNombre.length; i++){
             
         iniciales = arrayNombre[i].substring(0);
-        iniciales = iniciales.concat(iniciales);
+       
         }
        
        //Paso todo el contenido a mayúsculas.
