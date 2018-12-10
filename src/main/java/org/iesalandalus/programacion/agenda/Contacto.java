@@ -140,11 +140,11 @@ public class Contacto {
        
        // Lanzo un aviso en el caso de que se solicite iniciales de un nombre null:
        
-       if(this.nombre==null||this.nombre.isEmpty()){throw new IllegalArgumentException("Debe especificar antes un nombre para obtener las iniciales");} 
+       if(getNombre()==null||getNombre().isEmpty()){throw new IllegalArgumentException("Debe especificar antes un nombre para obtener las iniciales");} 
        
        //Transformo la cadena nombre en un array:
       
-       String[] arrayNombre = this.nombre.split(" ");
+       String[] arrayNombre = getNombre().split(" ");
       
        /** Con el bucle y el método substring estraigo la primera letra de cada palabra
          * y las voy concatenendo con el método concat()*/
