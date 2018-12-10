@@ -6,7 +6,7 @@ import org.iesalandalus.programacion.utilidades.Entrada;
 public class MainApp {
     private static final String ERROR="La acción no se ha podido ejecutar satisfactoriamente.";
     private static final String EXITO="Acción realizada con éxito";
-    private static Agenda agenda=new Agenda(15);
+    private static Agenda agenda;
    
     
 	public static void main(String[] args) throws OperationNotSupportedException {
@@ -16,7 +16,7 @@ public class MainApp {
          * que el método main nos muestre un menú que nos permitirá añadir un contacto, buscar un contacto,
          * borrar un contacto, listar todos los contactos no nulos y salir. El menú se repetirá mientras no elijamos
          * la opción salir. En todo caso se debe informar al usuario del resultado de la operación y de los posibles errores.
-         */  
+         */ agenda=new Agenda();
         
             int opcion;
             
@@ -195,7 +195,7 @@ public class MainApp {
                 System.out.println(ERROR + "La agenda no tiene ningun contacto almacenado");
             }
         
-            System.out.println("El listado de contactos de la Agenda es el siguiente: ");
+            System.out.println("La agenda contiene "+agenda.getNumContactos()+" contactos:");
             
             // Como se pide que solo se muestren las posiciones con valores creo la variable posicionvacia para controlar el bucle
             boolean posicionvacia=false;
