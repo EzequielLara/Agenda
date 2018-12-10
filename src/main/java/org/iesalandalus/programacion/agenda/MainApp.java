@@ -7,7 +7,7 @@ public class MainApp {
     private static final String ERROR="La acción no se ha podido ejecutar satisfactoriamente.";
     private static final String EXITO="Acción realizada con éxito";
     private static Agenda agenda=new Agenda(15);
-    private static Contacto contacto;
+   
     
 	public static void main(String[] args) throws OperationNotSupportedException {
 		System.out.println("Programa para gestionar una agenda de contactos");
@@ -21,12 +21,13 @@ public class MainApp {
             int opcion;
             
          do{
+             
             mostrarMenu();
             opcion = elegirOpcion();
             ejecutarOpcion(opcion);
             
-         }while(opcion != 5);
-         
+         }while(opcion != 0);
+            System.out.println("");
             System.out.println("Fin de la ejecución del programa Agenda");
     
 	}
@@ -44,7 +45,7 @@ public class MainApp {
             System.out.println("3. Borrar un contacto");
             System.out.println("4. Ver la lista de contactos");
             System.out.println("");
-            System.out.println("5. Salir del programa");
+            System.out.println("0. Salir del programa");
             System.out.println("");
             System.out.println("----------------------------------------------- ");
         
@@ -61,7 +62,7 @@ public class MainApp {
                  System.out.println("Indique una de las opciones disponibles");
                  opcion=Entrada.entero();
              
-             }while (opcion<0 || opcion>5);
+             }while (opcion<0 || opcion>4);
         
             return opcion;
         }
@@ -126,9 +127,8 @@ public class MainApp {
               */
  
             String nombre,telefono,correo;
-            
+            System.out.println("------------------------------------------------");
             System.out.println("Introduzca los datos del contacto:");
-            System.out.println("");
             System.out.println("Introduzca primero el nombre");
             
             nombre=Entrada.cadena();
@@ -140,19 +140,17 @@ public class MainApp {
             System.out.println("Por último introduzca la dirección de correo electronico");
             
             correo = Entrada.cadena();
-                    
-            contacto = new Contacto(nombre,telefono, correo);
-       
+                          
             try{
-                        
-                agenda.anadir(contacto);
+                Contacto contactoNuevo = new Contacto(nombre,telefono, correo);        
+                agenda.anadir(contactoNuevo);
                 System.out.println("--------------------------------------------");
-                System.out.println("CONTACTO CREADO");
+                System.out.println(EXITO +" /CONTACTO CREADO/");
                 System.out.println("--------------------------------------------");
                      
             }catch(OperationNotSupportedException e){
                     
-                 e.getMessage();
+                System.out.println(ERROR+ e.getMessage());
             }
             
             
@@ -161,40 +159,40 @@ public class MainApp {
         private static void buscarContacto() throws OperationNotSupportedException{
             
             System.out.println("Introduzca el nombre del usuario que desea buscar");
+            String nombre = Entrada.cadena();
             
-           try{
+            if (agenda.buscar(nombre)==null){
                
-               agenda.buscar(Entrada.cadena());
-               
-           }catch(OperationNotSupportedException e){
-                    
-             e.getMessage();
-           
-           }
+                System.out.println(ERROR + " /Contacto NO encontrado en la agenda/");
+                
+            }else{
+                System.out.println(EXITO + " /CONTACTO ENCONTRADO/");
+                System.out.println(agenda.buscar(nombre).toString());
+            }
         }
         
         private static void borrar() throws OperationNotSupportedException{
         
             System.out.println("Indique el nombre del contacto a borrar");
-            
+            String nombre=Entrada.cadena();
             try{
                 
-              agenda.borrar(Entrada.cadena());
+                agenda.borrar(nombre);
                 System.out.println("--------------------------------------------");
-                System.out.println("CONTACTO ELIMINADO");
+                System.out.println(EXITO + "/CONTACTO ELIMINADO/");
                 System.out.println("--------------------------------------------");
             }catch(OperationNotSupportedException e){
                     
-             e.getMessage();
+                System.out.println(ERROR + e.getMessage());
            
            }
         }
         
         private static void listarAgenda(){
             
-            if(agenda==null){
+            if(agenda.getContactos()== null){
             
-                System.out.println("La agenda no tiene ningun contacto almacenado");
+                System.out.println(ERROR + "La agenda no tiene ningun contacto almacenado");
             }
         
             System.out.println("El listado de contactos de la Agenda es el siguiente: ");
@@ -209,7 +207,7 @@ public class MainApp {
                 posicionvacia=true;
                 }else{
                      
-                    agenda.getContactos()[i].toString();
+                    System.out.println(agenda.getContactos()[i].toString()); 
                 }
             }
         }
