@@ -17,6 +17,10 @@ public class Agenda {
     
     private static final int MAX_CONTACTOS = 20;
     private int numContactos;
+    
+    /** Declaro como estático el atributo Contacto ya que pertenecerá a la clase agenda
+      *y todos los objetos contacto perteneceran al mismo array contactos
+      */
     private static Contacto[] contactos;
     
     /*Ejercicio 8.Crea el constructor y los métodos get que se especifican. 
@@ -25,6 +29,9 @@ public class Agenda {
 
     public Agenda() {
         
+      /**el constructor inicializa el array de contactos y el numero de contactos
+        *que irá aumentado según se añadan contactos y disminuira según se borren contactos
+        */  
      contactos = new Contacto[MAX_CONTACTOS];
      numContactos=0;
     }
@@ -51,10 +58,11 @@ public class Agenda {
     
     
     private int buscarPrimerIndiceComprobandoExistencia(Contacto contacto)throws OperationNotSupportedException{
-        
+        // Se inicializa índece a -1 ya que 0 corresponde a una posición de array.
         int indice=-1;
+        // Esta variable controlará si una posición del array es nula o esta llena.
         boolean posicionLibre=false;
-        
+        // Recorre la lista de contactos hasta que encuentre una posicion libre
         for(int i=0;i<contactos.length && !posicionLibre;i++)
         {
             if (contactos[i]==null)
@@ -62,6 +70,7 @@ public class Agenda {
                 posicionLibre=true;
                 indice=i;
             }
+            // Si encuentra un contacto con igual contenido lanzará excepción para avisar.
             else if (contactos[i].equals(contacto))
             {
                 throw new OperationNotSupportedException("Ya existe un contacto con esos datos.");
@@ -73,6 +82,7 @@ public class Agenda {
     
     private boolean indiceNoSuperaTamano(int i){
         
+        //valida si el indice introducido está dentro del array o no.
         if(i<=contactos.length){
             return true;
         }else
@@ -83,7 +93,9 @@ public class Agenda {
        int i;
        
         
-     //Buscamos donde insertar el contacto en el Array de contactos
+     /**Buscamos donde insertar el contacto en el Array de contactos. 
+       *Debemos encontrar una posición vacía y para ello utilizo el método buscarPrimerIndiceComprobandoExistencia()
+       */
         try
         {
             i=buscarPrimerIndiceComprobandoExistencia(contacto);
@@ -92,7 +104,10 @@ public class Agenda {
         {
             throw new OperationNotSupportedException("Ya existe un contacto con esos datos.");
         }
-        
+        /**También comprobamos que el indice se encuentra dentro del array.
+         * Y si es así añadimos el contacto al array en esa posción i y ademas
+         * aumentamos numeroContactos en 1 al haber creado un contacto nuevo para el array
+         */
         if (indiceNoSuperaTamano(i)){
             
                contactos[i]=contacto;
@@ -127,7 +142,9 @@ public class Agenda {
     
         int i;
     
-        // No necesito crear un objeto, basta con introducir una palabra para realizar la búsqueda.
+        /** No necesito crear un objeto, basta con introducir una palabra para realizar la búsqueda 
+          *y el método me devolverá un indice con su posición.
+          */
         
         i=buscarIndiceCliente(nombre);
         
@@ -149,12 +166,12 @@ public class Agenda {
     
     private void desplazarUnaPosicionHaciaIzquierda(int indice){
         
-        // Este metodo desplaza a la derecha los contactos nulos dejando a la izquierda los contáctos válidos.
-        
+        /** Este for recorre el array desde el índice introducido por parámetro hasta la primera posición ocupada a su derecha.
+         * Si no estuviese ocupada se pararia el recorrido.
+         * Una vez encontrado, copia en la posición indice el contenido de esta última posición.
+         */
        
-       
-    
-        for (int i = indice; i < contactos.length - 1 && contactos[i] != null; i++) 
+        for (int i = indice; i < contactos.length && contactos[i] != null; i++) 
             {
               
                contactos[i]=contactos[i+1];
@@ -165,6 +182,11 @@ public class Agenda {
     
     public void borrar(String nombre) throws OperationNotSupportedException{
     
+        /**El método realiza una busqueda del nombre para ver que índice del array le pertenece.
+         * Una vez encontrado desplaza las posiciones a la izquierda, quedando de este modo
+         * el contacto sobreescrito (borrado) por el contacto siguiente. 
+         * Si el índice pertenece al array y no es nulo se decrementa el atributo numContacto.
+         */
       int i;
       
       i=buscarIndiceCliente(nombre);
