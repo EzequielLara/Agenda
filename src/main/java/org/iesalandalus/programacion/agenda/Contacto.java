@@ -22,16 +22,17 @@ public class Contacto {
     // Las siguientes declaraciones de constantes contendrán los patrones para validar telefono y correo.
     
     private static final String ER_TELEFONO = "(^[6|9][0-9]{8}$)";
-    private static final String ER_CORREO = "[a-c]";
+    private static final String ER_CORREO = "[.a-zA-Z0-9]+@[.a-zA-Z0-9]+.[a-zAZ]{2,4}";
 
 
           
     /** Ejercicio 4. Crea los métodos get y set. Ten en cuenta que el nombre no puede estar vacío
-    y que además no podemos modificar el nombre de un contacto ya creado, el teléfono debe
-    empezar por 6 o 9 y tener 9 dígitos en total y que el correo debe ser un correo válido.
-    Si no se cumple el método set correspondiente deberá lanzar una excepción del tipo IllegalArgumentException
-    con el mensaje adecuado. Utiliza dos atributos de clase que no se puedan modificar para guardar las 
-    expresiones regulares a validar*/
+      *y que además no podemos modificar el nombre de un contacto ya creado, el teléfono debe
+      *empezar por 6 o 9 y tener 9 dígitos en total y que el correo debe ser un correo válido.
+      *Si no se cumple el método set correspondiente deberá lanzar una excepción del tipo IllegalArgumentException
+      *con el mensaje adecuado. Utiliza dos atributos de clase que no se puedan modificar para guardar las 
+      *expresiones regulares a validar
+      */
   
     public String getNombre() {
         return nombre;
@@ -56,8 +57,9 @@ public class Contacto {
 
     public void setTelefono(String telefono) {
         
-        /** Compilo el patrón del teléfono para después comprobar si coincide
-         * con el número introducido, si no coincide lanzo la excepción*/
+        /** Compilo el patrón del teléfono con Pattern para después comprobar si coincide
+          * con el número introducido, si no coincide lanzo la excepción
+          */
         
         if(telefono==null){ throw new IllegalArgumentException("No se ha creado ningún teléfono");}
         
@@ -132,6 +134,8 @@ public class Contacto {
        * la que llamare "iniciales" y será la que devolverá el método*. 
        * Como las iniciales no se podrán cambiar a lo largo del programa declaro el método como privado
        * 1º tengo que transformar la cadena nombre en array con el método split.
+       * 2º Con un for puedo usar cada palabra por separo para extraerles con una subcadena la letra que quiera
+       * 3º Concatenarlas para quedarme tan solo con las iniciales
        */
       
        // Declaro e inicializo variable:
@@ -140,26 +144,23 @@ public class Contacto {
        
        // Lanzo un aviso en el caso de que se solicite iniciales de un nombre null:
        
-       if(getNombre()==null||getNombre().isEmpty()){throw new IllegalArgumentException("Debe especificar antes un nombre para obtener las iniciales");} 
+       if(this.nombre==null||this.nombre.isEmpty()){throw new IllegalArgumentException("Debe especificar antes un nombre para obtener las iniciales");} 
        
        //Transformo la cadena nombre en un array:
       
-       String[] arrayNombre = getNombre().split(" ");
+       String[] arrayNombre = this.nombre.split(" ");
       
        /** Con el bucle y el método substring estraigo la primera letra de cada palabra
          * y las voy concatenendo con el método concat()*/
        
        for(int i=0; i<arrayNombre.length; i++){
             
-        iniciales = arrayNombre[i].substring(0);
+        iniciales = iniciales.concat(arrayNombre[i].substring(0,1));
        
         }
        
-       //Paso todo el contenido a mayúsculas.
-       
-        iniciales=iniciales.toUpperCase();
-        
-    return iniciales;
+  //Por último paso todo el contenido a mayúsculas. 
+    return iniciales.toUpperCase();
     
     }
     
