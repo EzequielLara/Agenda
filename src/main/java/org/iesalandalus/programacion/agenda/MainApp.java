@@ -12,14 +12,12 @@ public class MainApp {
 	public static void main(String[] args) throws OperationNotSupportedException {
 		System.out.println("Programa para gestionar una agenda de contactos");
                 
-        /**Crea los diferentes métodos que se indican en el diagrama de clases para permitir
-         * que el método main nos muestre un menú que nos permitirá añadir un contacto, buscar un contacto,
-         * borrar un contacto, listar todos los contactos no nulos y salir. El menú se repetirá mientras no elijamos
-         * la opción salir. En todo caso se debe informar al usuario del resultado de la operación y de los posibles errores.
-         */ agenda=new Agenda();
+         agenda=new Agenda();
         
             int opcion;
             
+         // Para que el menú se muestre continuamente hasta que se salga de la aplicación. 
+         
          do{
              
             mostrarMenu();
@@ -32,6 +30,11 @@ public class MainApp {
     
 	}
         
+        /**Crea los diferentes métodos que se indican en el diagrama de clases para permitir
+         * que el método main nos muestre un menú que nos permitirá añadir un contacto, buscar un contacto,
+         * borrar un contacto, listar todos los contactos no nulos y salir. El menú se repetirá mientras no elijamos
+         * la opción salir. En todo caso se debe informar al usuario del resultado de la operación y de los posibles errores.
+         */
         
         
         private static void mostrarMenu(){
@@ -127,22 +130,25 @@ public class MainApp {
               */
  
             String nombre,telefono,correo;
+           
             System.out.println("------------------------------------------------");
             System.out.println("Introduzca los datos del contacto:");
             System.out.println("Introduzca primero el nombre");
             
             nombre=Entrada.cadena();
-            
+          
             System.out.println("Introduzca ahora el número de teléfono");
            
             telefono = Entrada.cadena();
             
+           
             System.out.println("Por último introduzca la dirección de correo electronico");
             
             correo = Entrada.cadena();
-                          
+            
+            Contacto contactoNuevo = new Contacto(nombre,telefono, correo);  
+           
             try{
-                Contacto contactoNuevo = new Contacto(nombre,telefono, correo);        
                 agenda.anadir(contactoNuevo);
                 System.out.println("--------------------------------------------");
                 System.out.println(EXITO +" /CONTACTO CREADO/");
@@ -150,7 +156,7 @@ public class MainApp {
                      
             }catch(OperationNotSupportedException e){
                     
-                System.out.println(ERROR+ e.getMessage());
+                System.out.println(ERROR+ "DATOS INTRODUCIDOS INCORRECTOS");
             }
             
             
@@ -163,10 +169,10 @@ public class MainApp {
             
             if (agenda.buscar(nombre)==null){
                
-                System.out.println(ERROR + " /Contacto NO encontrado en la agenda/");
+                System.out.println(ERROR + " / Contacto NO encontrado en la agenda/");
                 
             }else{
-                System.out.println(EXITO + " /CONTACTO ENCONTRADO/");
+                System.out.println(EXITO + " / CONTACTO ENCONTRADO/");
                 System.out.println(agenda.buscar(nombre).toString());
             }
         }
@@ -183,7 +189,7 @@ public class MainApp {
                 System.out.println("--------------------------------------------");
             }catch(OperationNotSupportedException e){
                     
-                System.out.println(ERROR + e.getMessage());
+                System.out.println(ERROR + "/ CONTACTO NO ENCONTRADO EN LA AGENDA");
            
            }
         }
