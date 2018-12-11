@@ -105,9 +105,9 @@ public class MainApp {
                     try{
                          borrar();
                      
-                    }catch(OperationNotSupportedException e) 
+                    }catch(ArrayIndexOutOfBoundsException e) 
                     {
-                         System.out.println("ERROR:" + e.getMessage());
+                         System.out.println(ERROR + "No existe ese contacto en la Agenda");
                     }
                      
                     break;
@@ -145,18 +145,17 @@ public class MainApp {
             System.out.println("Por último introduzca la dirección de correo electronico");
             
             correo = Entrada.cadena();
-            
+           try{ 
             Contacto contactoNuevo = new Contacto(nombre,telefono, correo);  
-           
-            try{
+          
                 agenda.anadir(contactoNuevo);
                 System.out.println("--------------------------------------------");
                 System.out.println(EXITO +" /CONTACTO CREADO/");
                 System.out.println("--------------------------------------------");
                      
-            }catch(OperationNotSupportedException e){
+            }catch(IllegalArgumentException e){
                     
-                System.out.println(ERROR+ "DATOS INTRODUCIDOS INCORRECTOS");
+                throw new OperationNotSupportedException (ERROR+ "DATOS INTRODUCIDOS INCORRECTOS");
             }
             
             
@@ -189,7 +188,7 @@ public class MainApp {
                 System.out.println("--------------------------------------------");
             }catch(OperationNotSupportedException e){
                     
-                System.out.println(ERROR + "/ CONTACTO NO ENCONTRADO EN LA AGENDA");
+                throw new ArrayIndexOutOfBoundsException(ERROR + "/ CONTACTO NO ENCONTRADO EN LA AGENDA");
            
            }
         }
